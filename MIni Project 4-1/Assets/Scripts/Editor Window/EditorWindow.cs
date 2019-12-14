@@ -5,6 +5,8 @@ using UnityEditor;
 
 public class Editor : EditorWindow
 {
+    Color color;
+
     [MenuItem("DefendYourself/GameWindow")]
     public static void CreateWindow()
     {
@@ -13,9 +15,11 @@ public class Editor : EditorWindow
 
     private void OnGUI()
     {
-        if(GUILayout.Button("GetPosition"))
+        color = EditorGUILayout.ColorField(color);
+
+        if(GUILayout.Button("ChangeColor"))
         {
-           Debug.Log("Player Position" +  PlayerDefender.Instance.transform.position);
+            PlayerDefender.Instance.cRenderer.material.color = color;
         }
     }
 }

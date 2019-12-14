@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerDefender : MonoBehaviour
 {
+    [Header("Ground")]
+    public Renderer cRenderer;
 
     public GameObject cubePrefab;
 
@@ -29,6 +31,11 @@ public class PlayerDefender : MonoBehaviour
     {
         var x = Camera.main.ScreenToWorldPoint(new Vector3(touchData.StartPos.x, touchData.StartPos.y, 10));
 
-        Instantiate(cubePrefab, x, Quaternion.identity).transform.SetParent(this.transform);
+        Ray ray = Camera.main.ScreenPointToRay(touchData.StartPos);
+
+        if (!Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Instantiate(cubePrefab, x, Quaternion.identity).transform.SetParent(this.transform);
+        }
     }
 }

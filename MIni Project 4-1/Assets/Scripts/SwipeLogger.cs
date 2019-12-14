@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SwipeLogger : MonoBehaviour
 {
-    private LineRenderer lineRenderer;
+    //private LineRenderer lineRenderer;
 
     private void Awake()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        //lineRenderer = GetComponent<LineRenderer>();
         TouchControls.tData += SwipeData;
-        TouchControls.data += DrawLine;
+        //TouchControls.data += DrawLine;
     }
    
 
@@ -19,12 +19,12 @@ public class SwipeLogger : MonoBehaviour
         Debug.Log("Position is " + movement.swipeControls);
     }
 
-    void DrawLine(SwipeMovement movement)
-    {
-        var x = Camera.main.ScreenToWorldPoint(new Vector3(movement.StartPos.x, movement.StartPos.y, 10));
-        var y = Camera.main.ScreenToWorldPoint(new Vector3(movement.endPos.x, movement.endPos.y, 10));
+    //void DrawLine(SwipeMovement movement)
+    //{
+    //    var x = Camera.main.ScreenToWorldPoint(new Vector3(movement.StartPos.x, movement.StartPos.y, 10));
+    //    var y = Camera.main.ScreenToWorldPoint(new Vector3(movement.endPos.x, movement.endPos.y, 10));
 
-        lineRenderer.SetPosition(0, x);
-        lineRenderer.SetPosition(1, y);
-    }
+    //    lineRenderer.SetPosition(0, x);
+    //    lineRenderer.SetPosition(1, y);
+    //}
 }
