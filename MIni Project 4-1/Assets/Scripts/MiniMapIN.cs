@@ -8,31 +8,18 @@ public class MiniMapIN : MonoBehaviour
 	#region RequiredComponents
 
 	public Transform player;
-	public Transform MiniMapBorder;
 	public bool ChangeMiniMapBorderColor = true;
-	Image MiniMapBorderImage;
+	public Transform MiniMapBorder;
 
 	#endregion
 
 	void Start()
 	{
 		if (ChangeMiniMapBorderColor)
-		{
-			MiniMapBorderImage = MiniMapBorder.GetComponent<Image>();
-			MiniMapBorderImage.color = new Color(Random.value, Random.value, Random.value, 255);
-			StartCoroutine(ChangeImageBorderColour());
-		}
+			MiniMapBorder.GetComponent<Image>().color = new Color(Random.value, Random.value, Random.value, 255);
 	}
 
 	void LateUpdate()
-	{
-		MiniMap2Player();
-	}
-
-	//Main Code...
-	#region Code
-
-	void MiniMap2Player()
 	{
 		Vector3 newPosition = player.position;
 		newPosition.y = transform.position.y;
@@ -40,12 +27,4 @@ public class MiniMapIN : MonoBehaviour
 
 		transform.rotation = Quaternion.Euler(90f, player.eulerAngles.y, 0f);
 	}
-
-	IEnumerator ChangeImageBorderColour()
-	{
-		yield return new WaitForSeconds(5f);
-		MiniMapBorderImage.color = new Color(Random.value, Random.value, Random.value, 255);
-	}
-
-	#endregion
 }
