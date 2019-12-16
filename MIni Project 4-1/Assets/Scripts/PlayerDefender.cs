@@ -17,7 +17,11 @@ public class PlayerDefender : MonoBehaviour
 
     public bool onButtonTouched;
 
+    public GameObject bullet;
+
     public Canvas canvas;
+
+    public GameObject k;
 
     private static PlayerDefender instance;
 
@@ -40,7 +44,7 @@ public class PlayerDefender : MonoBehaviour
         var x = Camera.main.ScreenToWorldPoint(new Vector3(touchData.StartPos.x, touchData.StartPos.y, 10));
 
         Ray ray = Camera.main.ScreenPointToRay(touchData.StartPos);
-       
+
         GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
 
         PointerEventData ped = new PointerEventData(null);
@@ -51,11 +55,20 @@ public class PlayerDefender : MonoBehaviour
 
         gr.Raycast(ped, results);
 
+
         if (results.Count <= 0)
         {
             if (!Physics.Raycast(ray, out RaycastHit hit))
             {
-                Instantiate(cubePrefab, x, Quaternion.identity).transform.SetParent(this.transform);
+                k = Instantiate(cubePrefab, x, Quaternion.identity);
+                k.transform.SetParent(this.transform);
+            }
+            else
+            {
+                if (k != null)
+                {
+                    Instantiate(bullet, hit.collider.transform.position, Quaternion.identity).transform.SetParent(hit.transform);
+                }
             }
         }
     }
