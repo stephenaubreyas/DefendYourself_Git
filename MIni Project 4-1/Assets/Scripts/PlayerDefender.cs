@@ -23,7 +23,11 @@ public class PlayerDefender : MonoBehaviour
 
     public GameObject k;
 
-    private static PlayerDefender instance;
+	[HideInInspector] public GameObject[] bullets;//Collection of pooled bullets A.k.a No.of.bullets.
+	public int bulletPoolSize = 5;//How many bullets to keep on start.
+	[HideInInspector] public int currentBullet = 0;//Index of the current bullet in the collection.
+
+	private static PlayerDefender instance;
 
     public static PlayerDefender Instance
     {
@@ -39,7 +43,19 @@ public class PlayerDefender : MonoBehaviour
         TouchControls.tData += CreateCube;
     }
 
-    void CreateCube(TouchMovement touchData)
+	private void Start()
+	{
+		//Initialize the bullets collection.
+		bullets = new GameObject[bulletPoolSize];
+		//Loop through the collection... 
+		for (int i = 0; i < bulletPoolSize; i++)
+		{
+			bullets[i] = (GameObject)Instantiate(bullet);
+			bullets[i].SetActive(false);
+		}
+	}
+
+	void CreateCube(TouchMovement touchData)
     {
         var x = Camera.main.ScreenToWorldPoint(new Vector3(touchData.StartPos.x, touchData.StartPos.y, 10));
 
@@ -65,10 +81,19 @@ public class PlayerDefender : MonoBehaviour
             }
             else
             {
-                if (k != null)
-                {
-                    Instantiate(bullet, hit.collider.transform.position, Quaternion.identity).transform.SetParent(hit.transform);
-                }
+                if (k != null && !hit.collider.CompareTag("Ground"))
+				{
+					bullets[currentBullet].transform.position = hit.collider.transform.position;
+					bullets[currentBullet].transform.rotation = Quaternion.identity;
+					bullets[currentBullet].SetActive(true);
+
+					//Instantiate(bullets[currentBullet], hit.collider.transform.position, Quaternion.identity).transform.SetParent(hit.transform);
+					currentBullet++;
+					if (currentBullet >= bulletPoolSize)
+					{
+						currentBullet = 0;
+					}
+				}
             }
         }
     }
